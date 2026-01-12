@@ -1,4 +1,4 @@
-# 🎨 Agentic Debate Co-Creative AI
+# Agentic Debate Co-Creative AI
 
 **A revolutionary human-AI collaborative design platform powered by multi-agent debate systems**
 
@@ -11,6 +11,10 @@
 ---
 
 ## 🚀 Overview
+
+<img width="1800" alt="image" src="https://github.com/user-attachments/assets/0b61291b-b40c-46e0-aee9-54401f29cda1" />
+
+
 
 CoCreate is an **innovative AI-powered design platform** that revolutionizes the creative process by orchestrating multiple specialized AI agents that debate, critique, and collaboratively refine design decisions. Built on cutting-edge technologies like Microsoft AutoGen, Google Gemini, and Groq's ultra-fast inference, it offers designers an unprecedented level of AI assistance.
 
