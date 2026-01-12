@@ -1,0 +1,515 @@
+/* ==========================================================================
+   Canvas Interactif - CoCreate V2
+   ========================================================================== */
+
+.image-canvas {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--surface-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+/* Toolbar du canvas */
+.canvas-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 0 var(--spacing-sm);
+  border-right: 1px solid var(--border);
+}
+
+.toolbar-group:last-child {
+  border-right: none;
+}
+
+.toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.toolbar-btn:hover {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  color: var(--primary-700);
+  transform: translateY(-1px);
+}
+
+.toolbar-btn.active {
+  background: var(--primary-500);
+  border-color: var(--primary-500);
+  color: white;
+}
+
+.toolbar-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.toolbar-btn.danger:hover {
+  background: var(--error);
+  border-color: var(--error);
+  color: white;
+}
+
+.toolbar-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.zoom-level {
+  font-weight: 600;
+  color: var(--primary-700);
+}
+
+.elements-count {
+  font-weight: 500;
+}
+
+/* Container du canvas */
+.canvas-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: 
+    linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+    linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+    linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-container.drag-over {
+  background-color: var(--primary-100);
+}
+
+/* Overlay de drop */
+.drop-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(20, 184, 166, 0.1);
+  border: 2px dashed var(--primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.drop-message {
+  text-align: center;
+  color: var(--primary-700);
+  font-weight: 600;
+}
+
+.drop-message svg {
+  margin-bottom: var(--spacing-sm);
+}
+
+.drop-message p {
+  font-size: 18px;
+  margin: 0;
+}
+
+/* Actions de sélection */
+.selection-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--surface-page);
+  border-top: 1px solid var(--border);
+}
+
+.selection-info {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.selection-buttons {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.selection-buttons .action-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.selection-buttons .action-btn:hover {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  color: var(--primary-700);
+}
+
+/* Styles pour les éléments du canvas */
+.canvas-element {
+  cursor: move;
+  transition: box-shadow 0.2s ease;
+}
+
+.canvas-element:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.canvas-element.selected {
+  box-shadow: 0 0 0 2px var(--primary-500);
+}
+
+/* Grille */
+.canvas-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.grid-line {
+  stroke: #e2e8f0;
+  stroke-width: 1;
+}
+
+.grid-line.major {
+  stroke: #cbd5e1;
+  stroke-width: 1.5;
+}
+
+/* Transformer styles */
+.canvas-transformer {
+  border: 2px solid var(--primary-500) !important;
+  border-radius: 4px;
+}
+
+.canvas-transformer .transformer-handle {
+  width: 8px !important;
+  height: 8px !important;
+  background: var(--primary-500) !important;
+  border: 2px solid white !important;
+  border-radius: 2px !important;
+}
+
+.canvas-transformer .transformer-rotater {
+  width: 12px !important;
+  height: 12px !important;
+  background: var(--primary-500) !important;
+  border: 2px solid white !important;
+  border-radius: 50% !important;
+  top: -20px !important;
+}
+
+/* Konva specific styles */
+.konvajs-content {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+/* Loading states */
+.canvas-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.canvas-loading .spinner {
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .canvas-toolbar {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+  }
+  
+  .toolbar-group {
+    padding: 0 var(--spacing-xs);
+  }
+  
+  .toolbar-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .toolbar-info {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-left: 0;
+  }
+  
+  .selection-actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: stretch;
+  }
+  
+  .selection-buttons {
+    justify-content: center;
+  }
+  
+  .canvas-container {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .canvas-toolbar {
+    padding: var(--spacing-xs);
+  }
+  
+  .toolbar-group {
+    gap: 2px;
+  }
+  
+  .toolbar-btn {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .toolbar-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.canvas-element {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Drag & drop visual feedback */
+.canvas-container.drag-over .konvajs-content {
+  outline: 2px dashed var(--primary-500);
+  outline-offset: -4px;
+}
+
+/* Selection visual feedback */
+.canvas-element.selected::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid var(--primary-500);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Hover effects for interactive elements */
+.canvas-element:not(.selected):hover {
+  filter: brightness(1.1);
+}
+
+/* Grid toggle animation */
+.canvas-grid.hidden {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.canvas-grid.visible {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* ==========================================================================
+   Layer Panel - Panneau des calques
+   ========================================================================== */
+
+.layer-panel {
+  position: absolute;
+  top: 70px;
+  right: 16px;
+  width: 220px;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.layer-panel-header {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--border);
+}
+
+.layer-panel-header h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.layer-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.layer-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.layer-item:last-child {
+  border-bottom: none;
+}
+
+.layer-item:hover {
+  background: var(--surface-hover);
+}
+
+.layer-item.active {
+  background: var(--primary-100);
+  border-left: 3px solid var(--primary-500);
+}
+
+.layer-visibility-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+  transition: var(--transition-fast);
+}
+
+.layer-visibility-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text-main);
+}
+
+.layer-icon {
+  font-size: 14px;
+}
+
+.layer-name {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.layer-count {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface-page);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.layer-actions {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--surface-page);
+  border-top: 1px solid var(--border);
+}
+
+.layer-actions-title {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.layer-action-buttons {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+.layer-action-btn {
+  padding: 4px 8px;
+  font-size: 10px;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.layer-action-btn:hover {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  color: var(--primary-700);
+}
+
+/* Layer indicator dans toolbar */
+.layer-indicator {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: var(--primary-100);
+  border-radius: var(--radius-xs);
+  color: var(--primary-700);
+  font-weight: 500;
+}
+
+/* Canvas container doit être position: relative pour le layer panel */
+.image-canvas {
+  position: relative;
+}

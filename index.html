@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoCreate - Collaboration Humain-IA pour le Design</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+      /* CSS Variables pour le thème CoCreate */
+      :root {
+        /* Couleurs IA (Primary) */
+        --primary-100: #CCFBF1;
+        --primary-500: #14B8A6;
+        --primary-700: #0F766E;
+        
+        /* Couleurs Humain (Secondary) */
+        --secondary-500: #3B82F6;
+        --secondary-900: #0F172A;
+        
+        /* Neutres */
+        --surface-page: #F1F5F9;
+        --surface-card: #FFFFFF;
+        --text-main: #1E293B;
+        --text-muted: #64748B;
+        --border: #E2E8F0;
+        
+        /* Sémantique */
+        --success: #10B981;
+        --warning: #F59E0B;
+        --error: #EF4444;
+        
+        /* Typographie */
+        --font-family: 'Inter', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: var(--font-family);
+        background-color: var(--surface-page);
+        color: var(--text-main);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      /* Reset pour les éléments de formulaire */
+      input, button, textarea, select {
+        font-family: inherit;
+      }
+      
+      /* Classes utilitaires */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

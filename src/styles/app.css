@@ -1,0 +1,455 @@
+/* ==========================================================================
+   App Layout V2 - CoCreate V2
+   ========================================================================== */
+
+/* Layout principal */
+.app-v2 {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-page);
+  overflow: hidden;
+}
+
+/* En-tête application */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  padding: 0 var(--spacing-lg);
+  background: var(--surface-card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Logo et titre */
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.logo-icon {
+  color: var(--primary-500);
+}
+
+.app-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--secondary-900);
+  margin: 0;
+}
+
+.version-badge {
+  background: var(--primary-100);
+  color: var(--primary-700);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Boutons header */
+.sidebar-toggle,
+.gallery-toggle,
+.advanced-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--surface-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.sidebar-toggle:hover,
+.gallery-toggle:hover,
+.advanced-mode-toggle:hover {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  color: var(--primary-700);
+}
+
+.gallery-toggle.active {
+  background: var(--primary-500);
+  border-color: var(--primary-500);
+  color: white;
+}
+
+/* Layout principal */
+.app-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.app-sidebar {
+  width: 320px;
+  background: var(--surface-card);
+  border-right: 1px solid var(--border);
+  transition: var(--transition-normal);
+  overflow: hidden;
+}
+
+.app-sidebar.closed {
+  width: 0;
+  border-right: none;
+}
+
+.app-sidebar.closed .project-sidebar {
+  transform: translateX(-100%);
+}
+
+/* Zone principale */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  /* Important for nested flex */
+}
+
+.main-content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(400px, 1fr) minmax(400px, 1fr);
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  overflow: hidden;
+  min-height: 0;
+  /* Important for nested flex */
+}
+
+/* Sections principales */
+.chat-section,
+.canvas-section {
+  background: var(--surface-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  /* Allow shrinking */
+  min-width: 0;
+  /* Prevent grid blowout */
+}
+
+.chat-section {
+  /* Chat section - flexible height */
+  overflow-y: auto;
+}
+
+.canvas-section {
+  /* Canvas section - proper sizing */
+  min-height: 350px;
+  position: relative;
+}
+
+/* Galerie */
+.gallery-section {
+  height: 300px;
+  background: var(--surface-card);
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* Indicateur de version */
+.version-indicator {
+  position: fixed;
+  bottom: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 1000;
+}
+
+.version-indicator::after {
+  content: 'v2.0';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--primary-500);
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: help;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-fast);
+}
+
+.version-indicator:hover::after {
+  transform: scale(1.1);
+}
+
+.version-indicator:hover .version-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.version-tooltip {
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  width: 320px;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-md);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-main);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: var(--transition-normal);
+  z-index: 1001;
+}
+
+/* ==========================================================================
+   Mode Avancé
+   ========================================================================== */
+
+.app-advanced {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-page);
+  overflow: hidden;
+}
+
+/* Header mode avancé */
+.advanced-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  padding: 0 var(--spacing-lg);
+  background: var(--surface-card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.back-to-v2-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--surface-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.back-to-v2-btn:hover {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  color: var(--primary-700);
+}
+
+.header-left h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.header-info {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Contenu mode avancé */
+.advanced-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+}
+
+.advanced-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  gap: var(--spacing-xl);
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.advanced-section {
+  background: var(--surface-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.advanced-section h2 {
+  margin: 0;
+  padding: var(--spacing-lg);
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--border);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .main-content {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .chat-section {
+    max-height: none;
+    min-height: 400px;
+  }
+
+  .gallery-section {
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 var(--spacing-md);
+  }
+
+  .app-title {
+    font-size: 20px;
+  }
+
+  .version-badge {
+    display: none;
+  }
+
+  .app-sidebar {
+    width: 280px;
+  }
+
+  .main-content {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+  }
+
+  .gallery-section {
+    height: 200px;
+  }
+
+  .advanced-sections {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .advanced-content {
+    padding: var(--spacing-md);
+  }
+
+  .header-right {
+    gap: var(--spacing-xs);
+  }
+
+  .gallery-toggle span,
+  .advanced-mode-toggle span {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0 var(--spacing-sm);
+  }
+
+  .app-sidebar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 200;
+  }
+
+  .app-sidebar.closed {
+    transform: translateX(-100%);
+  }
+
+  .main-content {
+    padding: var(--spacing-xs);
+  }
+
+  .chat-section,
+  .canvas-section {
+    border-radius: var(--radius-sm);
+  }
+
+  .gallery-section {
+    height: 180px;
+  }
+}
+
+/* ==========================================================================
+   Animations et transitions
+   ========================================================================== */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.app-v2>* {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.main-content>* {
+  animation: slideIn 0.4s ease-out;
+}
+
+.gallery-section {
+  animation: slideIn 0.5s ease-out;
+}
