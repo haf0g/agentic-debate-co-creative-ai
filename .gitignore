@@ -84,8 +84,30 @@ out/
 .eslintcache
 .stylelintcache
 
-# Documentation artifacts (keep source .md files)
+# Documentation artifacts
 *.pdf
+
+# Exclude extra documentation files
+README_V2.md
+GUIDE_UTILISATEUR.md
+QUICKSTART.md
+RUNNING_INSTRUCTIONS.md
+TECHNICAL_DOCS.md
+TROUBLESHOOTING_DEBATE.md
+V2_DOCUMENTATION.md
+GROQ_INTEGRATION.md
+
+# Test files
+test_agents.py
+test_connection.js
+
+# Batch files
+diagnostic.bat
+fix_environment.bat
+
+# Build artifacts
+vite.config.js.timestamp-*
+cocreate-ai-design-app@
 
 # Package manager lock files (optional - uncomment if not committing)
 # package-lock.json
