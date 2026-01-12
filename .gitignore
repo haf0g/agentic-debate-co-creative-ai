@@ -86,6 +86,7 @@ out/
 
 # Documentation artifacts
 *.pdf
+!agentic-debate-co-creative-ai-article-2026.pdf
 
 # Exclude extra documentation files
 README_V2.md
